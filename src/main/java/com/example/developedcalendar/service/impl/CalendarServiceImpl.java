@@ -7,6 +7,8 @@ import com.example.developedcalendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CalendarServiceImpl implements CalendarService {
@@ -18,4 +20,17 @@ public class CalendarServiceImpl implements CalendarService {
 
         return new ScheduleResponseDto(scheduleRepository.save(dto.toEntity()));
     }
+
+    @Override
+    public List<ScheduleResponseDto> getScheduleList() {
+
+        return scheduleRepository.findAllByOrderByScheduleIdAsc().stream().map(ScheduleResponseDto::new).toList();
+    }
+
+    @Override
+    public ScheduleResponseDto getSchedule(Long id) {
+        return scheduleRepository.findById(id).map(ScheduleResponseDto::new).orElseThrow(() -> new IllegalArgumentException("조회 실패"));
+    }
+
+
 }
