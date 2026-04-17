@@ -51,92 +51,28 @@
 
 ---
 
-# API 명세서
+### 📅 API 명세서 목록
 
-domain: http://localhost:8080/schedules
+#### 1. 일정 관리 (Schedules)
+| 기능       | Method | URL                        | request | response | 상태코드 |
+|:---------| :---: |:---------------------------| :--- | :--- |:----:|
+| 일정 등록    | POST | /schedules                 | 요청 body | 등록 정보 | 201: 정상 등록  |
+| 일정 전체 조회 | GET | /schedules                 |  | 다건 응답 정보 | 200: 정상 조회  |
+| 일정 단건 조회 | GET | /schedules/{scheduleId}    | 요청 param | 단건 응답 정보 | 200: 정상 조회  |
+| 일정 수정    | PUT | /schedules/{scheduleId}    | 요청 body | 수정 정보 | 200: 정상 수정  |
+| 일정 삭제    | DELETE | /schedules/{scheduleId}    | 요청 param | - | 204: 정상 삭제  |
 
-url: /schedules
+#### 2. 유저 관리 (Users)
+| 기능       | Method | URL             | request | response | 상태코드 |
+|:---------| :---: |:----------------| :--- | :--- |:----:|
+| 유저 등록    | POST | /users          | 요청 body | 등록 정보 | 201: 정상 등록  |
+| 유저 전체 조회 | GET | /users          |  | 단건 응답 정보 | 200: 정상 조회  |
+| 유저 단건 조회 | GET | /users/{userId} | 요청 param | 단건 응답 정보 | 200: 정상 조회  |
+| 유저 수정    | PUT | /users/{userId} | 요청 body | 수정 정보 | 200: 정상 수정  |
+| 유저 삭제    | DELETE | /users/{userId} | 요청 param | - | 204: 정상 삭제  |
 
-method: POST
-
-## 01. 설명
-
----
-
-새로운 일정 정보를 작성하는 API
-
-## 02. 요청(Request)
-
----
-
-### a. Parameter & Querystring
-
-```
-
-```
-
-| 이름 | 데이터타입 | 설명 |
-| --- | --- | --- |
-|  |  |  |
-
-### b. request headers
-
-```sql
-
-```
-
-| 이름           | 데이터타입  | 설명               |
-|--------------|--------|------------------|
-| Content-Type | String | application/json |
-
-### c. request body
-
-```json
-{
-  "title": "직관데이",
-  "content": "창원에 야구보러 가는날",
-  "writerName": "이병우"
-}
-```
-
-| 이름         | 데이터타입  | 설명    |
-|------------|--------|-------|
-| title      | String | 할일 제목 |
-| content    | String | 할일 내용 |
-| writerName | String | 작성자명  |
-
-## 03. 응답(response)
-
----
-
-### a. response header
-
-```sql
-
-```
-
-| 이름 | 데이터타입  | 설명 |
-| --- |--------| --- |
-| Content-Type | String | application/json |
-
-### b. response body
-
-**성공응답:**
-```json
-{
-  "id": 1,
-  "title": "직관데이",
-  "content": "창원에 야구보러 가는날",
-  "writerName": "이병우",
-  "writeDate": "2026-04-16T19:30:00",
-  "editDate": "2026-04-16T19:30:00"
-}
-```
-| 이름             | 데이터 타입 | 설명                 |
-|:---------------|:-------|:-------------------|
-| **id**         | Long   | 고유 식별자 (PK, 중복 없음) |
-| **title**      | String | 할일 제목              |
-| **content**    | String | 할일 내용              |
-| **writerName** | String | 작성자명               |
-| **writeDate**  | String | 작성일                |
-| **editDate**   | String | 수정일                |
+#### 3. 기타 기능 관리 (인증/인가)
+| 기능 | Method | URL              | request | response | 상태코드 |
+| :--- | :---: |:-----------------| :--- | :--- | :--- |
+| 회원가입 | POST | /users/signup    | 요청 body (이메일, 비밀번호, 이름) | 가입 유저 정보 | 201: 정상 등록 |
+| 로그인 | POST | /users/login     | 요청 body (이메일, 비밀번호) | 로그인 성공 메시지 | 200: 로그인 성공 |
