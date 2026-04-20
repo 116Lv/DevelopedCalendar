@@ -68,5 +68,10 @@ public class CalendarServiceImpl implements CalendarService {
         return new UserResponseDto(userRepository.findById(id).orElseThrow().update(dto.getUserName(), dto.getEmail()));
     }
 
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
 
 }

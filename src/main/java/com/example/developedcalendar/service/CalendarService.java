@@ -26,4 +26,6 @@ public interface CalendarService {
     UserResponseDto getUserInfo(Long id);
 
     UserResponseDto updateUserInfo(Long id, UserRequestDto dto);
+
+    void deleteUser(Long id);
 }

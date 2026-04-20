@@ -65,4 +65,10 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.updateUserInfo(id, dto));
     }
 
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        calendarService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
