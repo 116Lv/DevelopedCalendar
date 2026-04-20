@@ -25,6 +25,8 @@ public class User {
 
     private String email;
 
+    private String password;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime signUpDate;

@@ -49,7 +49,11 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public UserResponseDto saveUser(UserRequestDto dto) {
-        return new UserResponseDto(userRepository.save(dto.toEntity()));
+        if(dto.getPassword().length() < 8) {
+            throw new IllegalArgumentException("비밀번호는 8글자 이상이어야 합니다.");
+        } else {
+            return new UserResponseDto(userRepository.save(dto.toEntity()));
+        }
     }
 
     @Override
