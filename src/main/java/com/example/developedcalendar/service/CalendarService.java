@@ -2,6 +2,8 @@ package com.example.developedcalendar.service;
 
 import com.example.developedcalendar.dto.ScheduleRequestDto;
 import com.example.developedcalendar.dto.ScheduleResponseDto;
+import com.example.developedcalendar.dto.UserRequestDto;
+import com.example.developedcalendar.dto.UserResponseDto;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface CalendarService {
     ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto);
 
     void deleteSchedule(Long id);
+
+    UserResponseDto saveUser(UserRequestDto dto);
 }

@@ -2,7 +2,10 @@ package com.example.developedcalendar.service.impl;
 
 import com.example.developedcalendar.dto.ScheduleRequestDto;
 import com.example.developedcalendar.dto.ScheduleResponseDto;
+import com.example.developedcalendar.dto.UserRequestDto;
+import com.example.developedcalendar.dto.UserResponseDto;
 import com.example.developedcalendar.repository.ScheduleRepository;
+import com.example.developedcalendar.repository.UserRepository;
 import com.example.developedcalendar.service.CalendarService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,8 @@ import java.util.List;
 public class CalendarServiceImpl implements CalendarService {
 
     private final ScheduleRepository scheduleRepository;
+
+    private final UserRepository userRepository;
 
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
@@ -40,6 +45,11 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public void deleteSchedule(Long id) {
         scheduleRepository.deleteById(id);
+    }
+
+    @Override
+    public UserResponseDto saveUser(UserRequestDto dto) {
+        return new UserResponseDto(userRepository.save(dto.toEntity()));
     }
 
 

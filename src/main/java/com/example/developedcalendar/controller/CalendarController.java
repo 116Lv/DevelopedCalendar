@@ -2,6 +2,8 @@ package com.example.developedcalendar.controller;
 
 import com.example.developedcalendar.dto.ScheduleRequestDto;
 import com.example.developedcalendar.dto.ScheduleResponseDto;
+import com.example.developedcalendar.dto.UserRequestDto;
+import com.example.developedcalendar.dto.UserResponseDto;
 import com.example.developedcalendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,11 @@ public class CalendarController {
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
         calendarService.deleteSchedule(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<UserResponseDto> saveUser(@RequestBody UserRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.saveUser(dto));
     }
 
 }
