@@ -62,5 +62,11 @@ public class CalendarServiceImpl implements CalendarService {
         return userRepository.findById(id).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("조회 실패"));
     }
 
+    @Override
+    @Transactional
+    public UserResponseDto updateUserInfo(Long id, UserRequestDto dto) {
+        return new UserResponseDto(userRepository.findById(id).orElseThrow().update(dto.getUserName(), dto.getEmail()));
+    }
+
 
 }

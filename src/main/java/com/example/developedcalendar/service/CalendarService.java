@@ -24,4 +24,6 @@ public interface CalendarService {
     List<UserResponseDto> getUserList();
 
     UserResponseDto getUserInfo(Long id);
+
+    UserResponseDto updateUserInfo(Long id, UserRequestDto dto);
 }

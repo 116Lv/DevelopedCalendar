@@ -60,4 +60,9 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getUserInfo(id));
     }
 
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<UserResponseDto> updateUserInfo(@PathVariable Long id, @RequestBody UserRequestDto dto) {
+        return ResponseEntity.ok(calendarService.updateUserInfo(id, dto));
+    }
+
 }
