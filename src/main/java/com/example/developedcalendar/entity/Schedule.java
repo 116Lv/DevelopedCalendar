@@ -28,7 +28,7 @@ public class Schedule {
     private String content;
 
     @Column()
-    private String writerName;
+    private Long writerId;
 
     @CreatedDate
     @Column(updatable = false)

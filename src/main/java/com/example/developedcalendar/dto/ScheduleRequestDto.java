@@ -10,13 +10,13 @@ public class ScheduleRequestDto {
 
     private String title;       // 할일 제목
     private String content;     // 할일 내용
-    private String writerName;  // 작성자명
+    private Long writerId;      // 작성자 유저 고유식별자
 
     public Schedule toEntity() {
         return Schedule.builder()
                 .title(this.title)
                 .content(this.content)
-                .writerName(this.writerName)
+                .writerId(this.writerId)
                 .build();
     }
 }
