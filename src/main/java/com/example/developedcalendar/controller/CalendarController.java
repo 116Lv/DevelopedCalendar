@@ -32,6 +32,11 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.getSchedule(id));
     }
 
+    @PatchMapping("/schedules/{id}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(@PathVariable Long id, @RequestBody ScheduleRequestDto dto) {
+        return ResponseEntity.ok(calendarService.updateSchedule(id, dto));
+    }
+
 
 
 }

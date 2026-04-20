@@ -37,4 +37,9 @@ public class Schedule {
     @LastModifiedDate
     private LocalDateTime editDate;
 
+    public Schedule update(String title, String content) {
+        this.title = title;
+        this.content = content;
+        return this;
+    }
 }
