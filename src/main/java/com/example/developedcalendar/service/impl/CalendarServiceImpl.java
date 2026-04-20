@@ -37,5 +37,10 @@ public class CalendarServiceImpl implements CalendarService {
         return new ScheduleResponseDto(scheduleRepository.findById(id).orElseThrow().update(dto.getTitle(), dto.getContent()));
     }
 
+    @Override
+    public void deleteSchedule(Long id) {
+        scheduleRepository.deleteById(id);
+    }
+
 
 }

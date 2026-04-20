@@ -14,4 +14,6 @@ public interface CalendarService {
     ScheduleResponseDto getSchedule(Long id);
 
     ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto);
+
+    void deleteSchedule(Long id);
 }

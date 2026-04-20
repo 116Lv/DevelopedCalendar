@@ -37,6 +37,10 @@ public class CalendarController {
         return ResponseEntity.ok(calendarService.updateSchedule(id, dto));
     }
 
-
+    @DeleteMapping("/schedules/{id}")
+    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
+        calendarService.deleteSchedule(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
