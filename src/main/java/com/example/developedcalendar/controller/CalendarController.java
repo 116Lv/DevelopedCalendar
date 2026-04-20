@@ -50,4 +50,14 @@ public class CalendarController {
         return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.saveUser(dto));
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<UserResponseDto>> getUserList() {
+        return ResponseEntity.ok(calendarService.getUserList());
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(calendarService.getUserInfo(id));
+    }
+
 }

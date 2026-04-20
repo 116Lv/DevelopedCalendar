@@ -20,4 +20,8 @@ public interface CalendarService {
     void deleteSchedule(Long id);
 
     UserResponseDto saveUser(UserRequestDto dto);
+
+    List<UserResponseDto> getUserList();
+
+    UserResponseDto getUserInfo(Long id);
 }

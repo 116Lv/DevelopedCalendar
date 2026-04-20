@@ -52,5 +52,15 @@ public class CalendarServiceImpl implements CalendarService {
         return new UserResponseDto(userRepository.save(dto.toEntity()));
     }
 
+    @Override
+    public List<UserResponseDto> getUserList() {
+        return userRepository.findAllByOrderByUserIdDesc().stream().map(UserResponseDto::new).toList();
+    }
+
+    @Override
+    public UserResponseDto getUserInfo(Long id) {
+        return userRepository.findById(id).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("조회 실패"));
+    }
+
 
 }

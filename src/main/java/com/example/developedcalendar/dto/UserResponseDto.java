@@ -1,6 +1,5 @@
 package com.example.developedcalendar.dto;
 
-import com.example.developedcalendar.entity.Schedule;
 import com.example.developedcalendar.entity.User;
 import lombok.Getter;
 import lombok.Setter;
