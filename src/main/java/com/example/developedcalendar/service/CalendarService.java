@@ -30,4 +30,6 @@ public interface CalendarService {
     void deleteUser(Long id);
 
     boolean authenticate(UserRequestDto dto);
+
+    UserResponseDto getUserByEmailAndPassword(UserRequestDto dto);
 }

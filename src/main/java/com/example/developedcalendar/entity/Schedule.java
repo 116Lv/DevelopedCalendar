@@ -1,6 +1,8 @@
 package com.example.developedcalendar.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,13 +23,15 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-    @Column()
+    @Size(max = 10)
+    @Column(nullable = false, length = 10)
+    @NotBlank(message = "제목은 필수 입력값입니다.")
     private String title;
 
-    @Column()
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Column()
+    @Column(nullable = false)
     private Long writerId;
 
     @CreatedDate

@@ -33,13 +33,13 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public ScheduleResponseDto getSchedule(Long id) {
-        return scheduleRepository.findById(id).map(ScheduleResponseDto::new).orElseThrow(() -> new IllegalArgumentException("조회 실패"));
+        return scheduleRepository.findById(id).map(ScheduleResponseDto::new).orElseThrow(() -> new IllegalArgumentException("해당 ID값의 일정을 찾을수 없습니다."));
     }
 
     @Override
     @Transactional
     public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto) {
-        return new ScheduleResponseDto(scheduleRepository.findById(id).orElseThrow().update(dto.getTitle(), dto.getContent()));
+        return new ScheduleResponseDto(scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 ID값의 일정을 찾을수 없습니다.")).update(dto.getTitle(), dto.getContent()));
     }
 
     @Override
@@ -49,11 +49,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public UserResponseDto saveUser(UserRequestDto dto) {
-        if(dto.getPassword().length() < 8) {
-            throw new IllegalArgumentException("비밀번호는 8글자 이상이어야 합니다.");
-        } else {
-            return new UserResponseDto(userRepository.save(dto.toEntity()));
-        }
+        return new UserResponseDto(userRepository.save(dto.toEntity()));
     }
 
     @Override
@@ -63,13 +59,13 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public UserResponseDto getUserInfo(Long id) {
-        return userRepository.findById(id).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("조회 실패"));
+        return userRepository.findById(id).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("해당 Id값의 유저는 존재하지 않습니다."));
     }
 
     @Override
     @Transactional
     public UserResponseDto updateUserInfo(Long id, UserRequestDto dto) {
-        return new UserResponseDto(userRepository.findById(id).orElseThrow().update(dto.getUserName(), dto.getEmail()));
+        return new UserResponseDto(userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Id값의 유저는 존재하지 않습니다.")).update(dto.getUserName(), dto.getEmail()));
     }
 
     @Override
@@ -80,6 +76,11 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public boolean authenticate(UserRequestDto dto) {
         return userRepository.findByEmail(dto.getEmail()).map(user -> user.getPassword().equals(dto.getPassword())).orElse(false);
+    }
+
+    @Override
+    public UserResponseDto getUserByEmailAndPassword(UserRequestDto dto) {
+        return userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("입력한 정보와 일치한 유저는 존재하지 않습니다."));
     }
 
 
