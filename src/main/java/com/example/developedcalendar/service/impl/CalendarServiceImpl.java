@@ -77,5 +77,10 @@ public class CalendarServiceImpl implements CalendarService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public boolean authenticate(UserRequestDto dto) {
+        return userRepository.findByEmail(dto.getEmail()).map(user -> user.getPassword().equals(dto.getPassword())).orElse(false);
+    }
+
 
 }

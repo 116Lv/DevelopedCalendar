@@ -28,4 +28,6 @@ public interface CalendarService {
     UserResponseDto updateUserInfo(Long id, UserRequestDto dto);
 
     void deleteUser(Long id);
+
+    boolean authenticate(UserRequestDto dto);
 }
