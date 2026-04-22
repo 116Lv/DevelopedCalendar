@@ -1,9 +1,6 @@
 package com.example.developedcalendar.controller;
 
-import com.example.developedcalendar.dto.ScheduleRequestDto;
-import com.example.developedcalendar.dto.ScheduleResponseDto;
-import com.example.developedcalendar.dto.UserRequestDto;
-import com.example.developedcalendar.dto.UserResponseDto;
+import com.example.developedcalendar.dto.*;
 import com.example.developedcalendar.service.CalendarService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -112,4 +110,55 @@ public class CalendarController {
         return ResponseEntity.ok("현재 로그인된 유저: " + userName + "님");
     }
 
+    @PostMapping("/schedules/{scheduleId}/comments")
+    public ResponseEntity<CommentResponseDto> saveComment(@PathVariable Long scheduleId, @Valid @RequestBody CommentRequestDto dto, HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+
+        if(session == null || session.getAttribute("loginUserId") == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+        }
+
+        Long userId = (Long) session.getAttribute("loginUserId");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.saveComment(scheduleId, userId, dto));
+    }
+
+    @GetMapping("/schedules/{scheduleId}/comments")
+    public ResponseEntity<List<CommentResponseDto>> getCommentList(@PathVariable Long scheduleId) {
+        return ResponseEntity.ok(calendarService.getCommentList(scheduleId));
+    }
+
+    @GetMapping("/schedules/{scheduleId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long scheduleId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(calendarService.getComment(scheduleId, commentId));
+    }
+
+    @PatchMapping("/schedules/{scheduleId}/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long scheduleId, @PathVariable Long commentId, @Valid @RequestBody CommentRequestDto dto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if(session == null || session.getAttribute("loginUserId") == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+        }
+
+        Long userId = (Long) session.getAttribute("loginUserId");
+
+        return ResponseEntity.ok(calendarService.updateComment(scheduleId, commentId, userId, dto));
+    }
+
+    @DeleteMapping("/schedules/{scheduleId}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long scheduleId, @PathVariable Long commentId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        if(session == null || session.getAttribute("loginUserId") == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요한 서비스입니다.");
+        }
+
+        Long userId = (Long) session.getAttribute("loginUserId");
+
+        calendarService.deleteComment(scheduleId, commentId, userId);
+
+        return ResponseEntity.noContent().build();
+    }
 }

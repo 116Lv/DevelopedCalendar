@@ -1,10 +1,9 @@
 package com.example.developedcalendar.service.impl;
 
-import com.example.developedcalendar.common.PasswordEncoder;
-import com.example.developedcalendar.dto.ScheduleRequestDto;
-import com.example.developedcalendar.dto.ScheduleResponseDto;
-import com.example.developedcalendar.dto.UserRequestDto;
-import com.example.developedcalendar.dto.UserResponseDto;
+import com.example.developedcalendar.core.config.PasswordEncoder;
+import com.example.developedcalendar.dto.*;
+import com.example.developedcalendar.entity.Comment;
+import com.example.developedcalendar.repository.CommentRepository;
 import com.example.developedcalendar.repository.ScheduleRepository;
 import com.example.developedcalendar.repository.UserRepository;
 import com.example.developedcalendar.service.CalendarService;
@@ -21,6 +20,8 @@ public class CalendarServiceImpl implements CalendarService {
     private final ScheduleRepository scheduleRepository;
 
     private final UserRepository userRepository;
+
+    private final CommentRepository commentRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -91,6 +92,59 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public UserResponseDto getUserByEmail(String email) {
         return userRepository.findByEmail(email).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("입력한 정보와 일치한 유저는 존재하지 않습니다."));
+    }
+
+    @Override
+    public CommentResponseDto saveComment(Long id, Long loginUserId, CommentRequestDto dto) {
+
+        if(scheduleRepository.findById(id).isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 일정입니다.");
+        }
+
+        return new CommentResponseDto(commentRepository.save(Comment.builder().content(dto.getContent()).scheduleId(id).writerId(loginUserId).build()));
+    }
+
+    @Override
+    public List<CommentResponseDto> getCommentList(Long scheduleId) {
+        return commentRepository.findAllByScheduleId(scheduleId).stream().map(CommentResponseDto::new).toList();
+    }
+
+    @Override
+    public CommentResponseDto getComment(Long scheduleId, Long commentId) {
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow();
+
+        if(!comment.getScheduleId().equals(scheduleId)) {
+            throw new IllegalArgumentException("해당 일정에 요청한 댓글은 존재하지 않습니다.");
+        }
+
+        return new CommentResponseDto(comment);
+    }
+
+    @Override
+    @Transactional
+    public CommentResponseDto updateComment(Long scheduleId, Long commentId, Long userId, CommentRequestDto dto) {
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow();
+
+
+        if(!comment.getWriterId().equals(userId)) {
+            throw new IllegalArgumentException("해당 댓글에 대한 수정할수 있는 권한이 없습니다.");
+        }
+
+        return new CommentResponseDto(comment.update(dto.getContent()));
+    }
+
+    @Override
+    public void deleteComment(Long scheduleId, Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow();
+
+
+        if(!comment.getWriterId().equals(userId)) {
+            throw new IllegalArgumentException("해당 댓글에 대한 삭제할수 있는 권한이 없습니다.");
+        }
+
+        commentRepository.deleteById(commentId);
     }
 
 

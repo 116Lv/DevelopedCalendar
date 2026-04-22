@@ -1,9 +1,7 @@
 package com.example.developedcalendar.service;
 
-import com.example.developedcalendar.dto.ScheduleRequestDto;
-import com.example.developedcalendar.dto.ScheduleResponseDto;
-import com.example.developedcalendar.dto.UserRequestDto;
-import com.example.developedcalendar.dto.UserResponseDto;
+import com.example.developedcalendar.dto.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -32,4 +30,14 @@ public interface CalendarService {
     boolean authenticate(UserRequestDto dto);
 
     UserResponseDto getUserByEmail(String email);
+
+    CommentResponseDto saveComment(Long id, Long loginUserId, @Valid CommentRequestDto dto);
+
+    List<CommentResponseDto> getCommentList(Long scheduleId);
+
+    CommentResponseDto getComment(Long scheduleId, Long commentId);
+
+    CommentResponseDto updateComment(Long scheduleId, Long commentId, Long userId, @Valid CommentRequestDto dto);
+
+    void deleteComment(Long scheduleId, Long commentId, Long userId);
 }
