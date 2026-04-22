@@ -1,4 +1,4 @@
-package com.example.developedcalendar.common;
+package com.example.developedcalendar.core.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;

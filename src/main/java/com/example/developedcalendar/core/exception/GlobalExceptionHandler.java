@@ -1,4 +1,4 @@
-package com.example.developedcalendar.common;
+package com.example.developedcalendar.core.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
