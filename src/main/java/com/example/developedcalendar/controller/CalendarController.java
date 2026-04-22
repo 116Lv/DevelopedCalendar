@@ -82,7 +82,7 @@ public class CalendarController {
 
         HttpSession session = request.getSession();
 
-        UserResponseDto userInfo = calendarService.getUserByEmailAndPassword(dto);
+        UserResponseDto userInfo = calendarService.getUserByEmail(dto.getEmail());
 
         session.setAttribute("loginUserId", userInfo.getUserId());
         session.setAttribute("loginEmailAddress", userInfo.getEmail());

@@ -1,5 +1,6 @@
 package com.example.developedcalendar.service.impl;
 
+import com.example.developedcalendar.common.PasswordEncoder;
 import com.example.developedcalendar.dto.ScheduleRequestDto;
 import com.example.developedcalendar.dto.ScheduleResponseDto;
 import com.example.developedcalendar.dto.UserRequestDto;
@@ -21,8 +22,11 @@ public class CalendarServiceImpl implements CalendarService {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto dto) {
+
         return new ScheduleResponseDto(scheduleRepository.save(dto.toEntity()));
     }
 
@@ -49,7 +53,10 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public UserResponseDto saveUser(UserRequestDto dto) {
-        return new UserResponseDto(userRepository.save(dto.toEntity()));
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+        return new UserResponseDto(userRepository.save(dto.toEntity(passwordEncoder.encode(dto.getPassword()))));
     }
 
     @Override
@@ -65,6 +72,9 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     @Transactional
     public UserResponseDto updateUserInfo(Long id, UserRequestDto dto) {
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
         return new UserResponseDto(userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 Id값의 유저는 존재하지 않습니다.")).update(dto.getUserName(), dto.getEmail()));
     }
 
@@ -75,12 +85,12 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public boolean authenticate(UserRequestDto dto) {
-        return userRepository.findByEmail(dto.getEmail()).map(user -> user.getPassword().equals(dto.getPassword())).orElse(false);
+        return userRepository.findByEmail(dto.getEmail()).map(user -> passwordEncoder.matches(dto.getPassword(), user.getPassword())).orElse(false);
     }
 
     @Override
-    public UserResponseDto getUserByEmailAndPassword(UserRequestDto dto) {
-        return userRepository.findByEmailAndPassword(dto.getEmail(), dto.getPassword()).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("입력한 정보와 일치한 유저는 존재하지 않습니다."));
+    public UserResponseDto getUserByEmail(String email) {
+        return userRepository.findByEmail(email).map(UserResponseDto::new).orElseThrow(() -> new IllegalArgumentException("입력한 정보와 일치한 유저는 존재하지 않습니다."));
     }
 
 

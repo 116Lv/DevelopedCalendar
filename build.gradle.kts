@@ -24,6 +24,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     //validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    //PasswordEncoder
+    implementation("at.favre.lib:bcrypt:0.10.2")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-web-mvc-test")

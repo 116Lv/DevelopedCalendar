@@ -31,5 +31,5 @@ public interface CalendarService {
 
     boolean authenticate(UserRequestDto dto);
 
-    UserResponseDto getUserByEmailAndPassword(UserRequestDto dto);
+    UserResponseDto getUserByEmail(String email);
 }

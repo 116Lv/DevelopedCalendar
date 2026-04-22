@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 public class UserRequestDto {
 
-    @NotBlank(message = "유저명은 필수입니다.")
     @Size(max = 4, message = "유저명은 4글자 이내여야 합니다.")
     private String userName;
 
@@ -23,11 +22,11 @@ public class UserRequestDto {
     @Size(min = 8, message = "비밀번호는 최소 8글자 이상이어야 합니다.")
     private String password;
 
-    public User toEntity() {
+    public User toEntity(String encodedPassword) {
         return User.builder()
                 .userName(this.userName)
                 .email(this.email)
-                .password(this.password)
+                .password(encodedPassword)
                 .build();
     }
 }
