@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface CalendarService {
 
-    ScheduleResponseDto saveSchedule(ScheduleRequestDto dto);
+    ScheduleResponseDto saveSchedule(Long userId, ScheduleRequestDto dto);
 
     List<ScheduleResponseDto> getScheduleList();
 
     ScheduleResponseDto getSchedule(Long id);
 
-    ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto dto);
+    ScheduleResponseDto updateSchedule(Long userId, Long id, ScheduleRequestDto dto);
 
-    void deleteSchedule(Long id);
+    void deleteSchedule(Long userId, Long id);
 
     UserResponseDto saveUser(UserRequestDto dto);
 
@@ -23,15 +23,15 @@ public interface CalendarService {
 
     UserResponseDto getUserInfo(Long id);
 
-    UserResponseDto updateUserInfo(Long id, UserRequestDto dto);
+    UserResponseDto updateUserInfo(Long userId, Long id, UserRequestDto dto);
 
-    void deleteUser(Long id);
+    void deleteUser(Long userId, Long id);
 
     boolean authenticate(UserRequestDto dto);
 
     UserResponseDto getUserByEmail(String email);
 
-    CommentResponseDto saveComment(Long id, Long loginUserId, @Valid CommentRequestDto dto);
+    CommentResponseDto saveComment(Long scheduleId, Long loginUserId, @Valid CommentRequestDto dto);
 
     List<CommentResponseDto> getCommentList(Long scheduleId);
 

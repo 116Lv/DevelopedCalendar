@@ -8,7 +8,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+#     처음 DB생성시에만 이걸 사용하고
+      ddl-auto: create
+#     이후엔 이걸로 사용해주세요
+#      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
